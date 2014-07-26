@@ -30,6 +30,12 @@ module MailForm
 			end
 		end
 
+		def initialize(attributes={})
+			attributes.each do |att, value|
+				self.public_send("#{att}=", value)
+			end if attributes
+		end
+
 		protected
 
 			def clear_attribute(attribute)
