@@ -52,4 +52,16 @@ class MailFormTest < ActiveSupport::TestCase
     assert_match "Email: user@example.com", mail.body.encoded
   end
 
+  test "validates absence of nickname" do
+    sample = SampleMail.new(nickname: "Spam")
+    assert !sample.valid?
+    assert_equal ["is invalid"], sample.errors[:nickname]
+  end
+
+  test "provides before and after deliver hooks" do
+    sample = SampleMail.new(email: "sample@exaple.com")
+    sample.deliver
+    assert_equal [:before, :after], sample.evaluated_callbacks
+  end
+
 end
